@@ -1,7 +1,7 @@
 const flock = [];
 // let alignSlider, cohesionSlider, separationSlider;
 let predators = [];
-let goodCreatureNumber = 300
+let goodCreatureNumber = 200
 let predatorNumber = 1
 
 function setup() {

@@ -6,7 +6,10 @@ class Flock {
 		let steering = createVector(0, 0);
 		for (let other of boids) {
 			let d = boid.position.dist(other.position);
-			if (other != boid && d < perceptionRadius) {
+			let vector = p5.Vector.sub(other.position, boid.position);
+			let heading = vector.heading()
+			let angleDiff = abs(heading - boid.velocity.heading())
+			if (other != boid && d < perceptionRadius && angleDiff < PI) {
 				steering.add(other.velocity);
 				total++;
 			}
