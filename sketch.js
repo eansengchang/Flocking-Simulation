@@ -2,7 +2,7 @@ const flock = [];
 // let alignSlider, cohesionSlider, separationSlider;
 let predators = [];
 let goodCreatureNumber = 300
-let predatorNumber = 2
+let predatorNumber = 1
 
 function setup() {
 	let cnv = createCanvas(windowWidth, windowHeight);
