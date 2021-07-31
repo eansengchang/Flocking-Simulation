@@ -1,15 +1,15 @@
 class Flock {
 
 	static align(boid, boids) {
-		let perceptionRadius = 50;
+		let perceptionRadius = 100;
 		let total = 0
 		let steering = createVector(0, 0);
 		for (let other of boids) {
 			let d = boid.position.dist(other.position);
 			let vector = p5.Vector.sub(other.position, boid.position);
 			let heading = vector.heading()
-			let angleDiff = abs(heading - boid.velocity.heading())
-			if (other != boid && d < perceptionRadius && angleDiff < PI) {
+			let angleDiff = abs(heading - boid.velocity.heading()) % PI
+			if (other != boid && d < perceptionRadius && angleDiff < PI * 3 / 5) {
 				steering.add(other.velocity);
 				total++;
 			}
@@ -25,12 +25,15 @@ class Flock {
 	}
 
 	static separation(boid, boids) {
-		let perceptionRadius = 20;
+		let perceptionRadius = 30;
 		let total = 0
 		let steering = createVector(0, 0);
 		for (let other of boids) {
 			let d = boid.position.dist(other.position);
-			if (other != boid && d < perceptionRadius) {
+			let vector = p5.Vector.sub(other.position, boid.position);
+			let heading = vector.heading()
+			let angleDiff = abs(heading - boid.velocity.heading()) % PI
+			if (other != boid && d < perceptionRadius && angleDiff < PI * 5 / 5) {
 				let diff = p5.Vector.sub(boid.position, other.position);
 				diff.div(d);
 				steering.add(diff);
@@ -49,12 +52,15 @@ class Flock {
 
 
 	static cohesion(boid, boids) {
-		let perceptionRadius = 50;
+		let perceptionRadius = 100;
 		let total = 0
 		let steering = createVector(0, 0);
 		for (let other of boids) {
 			let d = boid.position.dist(other.position);
-			if (other != boid && d < perceptionRadius) {
+			let vector = p5.Vector.sub(other.position, boid.position);
+			let heading = vector.heading()
+			let angleDiff = abs(heading - boid.velocity.heading()) % PI
+			if (other != boid && d < perceptionRadius && angleDiff < PI * 3 / 5) {
 				steering.add(other.position);
 				total++;
 			}
@@ -75,9 +81,9 @@ class Flock {
 		let cohesion = this.cohesion(boid, boids);
 		let separation = this.separation(boid, boids);
 
-		// alignment.mult(alignSlider.value())
-		// cohesion.mult(cohesionSlider.value())
-		separation.mult(1.7)
+		alignment.mult(1)
+		// cohesion.mult(1.4)
+		separation.mult(1.4)
 
 		boid.applyForce(alignment)
 		boid.applyForce(cohesion)
